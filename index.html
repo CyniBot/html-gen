@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic HTML Generator</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+</head>
+
+<body class="bg-gray-200 p-8">
+    <div class="max-w-2xl mx-auto bg-white p-4 rounded shadow">
+        <h1 class="text-3xl font-bold mb-4">HTML Generator</h1>
+
+        <label for="pageTitle" class="block mb-2 text-sm font-semibold text-gray-600">Page Title:</label>
+        <input type="text" id="pageTitle" class="w-full p-2 border rounded focus:outline-none focus:border-blue-500 mb-4">
+
+        <label for="pageContent" class="block mb-2 text-sm font-semibold text-gray-600">Page Content:</label>
+        <textarea id="pageContent" class="w-full p-2 border rounded focus:outline-none focus:border-blue-500 mb-4" rows="4"></textarea>
+
+        <button onclick="generateHTML()" class="bg-blue-500 text-white p-2 rounded">Generate HTML</button>
+
+        <div id="output" class="mt-4"></div>
+    </div>
+
+    <script>
+        function generateHTML() {
+            const pageTitle = document.getElementById('pageTitle').value;
+            const pageContent = document.getElementById('pageContent').value;
+
+            const generatedHTML = `
+                <!DOCTYPE html>
+                <html lang="en">
+
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>${pageTitle}</title>
+                    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+                </head>
+
+                <body class="bg-gray-200 p-8">
+                    <div class="max-w-2xl mx-auto bg-white p-4 rounded shadow">
+                        <h1 class="text-3xl font-bold">${pageTitle}</h1>
+                        <p class="mt-2">${pageContent}</p>
+                    </div>
+                </body>
+
+                </html>
+            `;
+
+            document.getElementById('output').innerText = generatedHTML;
+        }
+    </script>
+</body>
+
+</html>
