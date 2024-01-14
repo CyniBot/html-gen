@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic HTML Generator</title>
+    <title>Enhanced HTML Generator</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
 </head>
 
@@ -18,12 +18,37 @@
         <label for="pageContent" class="block mb-2 text-sm font-semibold text-gray-600">Page Content:</label>
         <textarea id="pageContent" class="w-full p-2 border rounded focus:outline-none focus:border-blue-500 mb-4" rows="4"></textarea>
 
+        <div class="mb-4">
+            <button onclick="addElement('h2')" class="mr-2 bg-blue-500 text-white p-2 rounded">Add Header</button>
+            <button onclick="addElement('p')" class="mr-2 bg-blue-500 text-white p-2 rounded">Add Paragraph</button>
+            <button onclick="addElement('button')" class="bg-blue-500 text-white p-2 rounded">Add Button</button>
+        </div>
+
         <button onclick="generateHTML()" class="bg-blue-500 text-white p-2 rounded">Generate HTML</button>
 
         <div id="output" class="mt-4"></div>
     </div>
 
     <script>
+        function addElement(elementType) {
+            const pageContent = document.getElementById('pageContent');
+            const currentContent = pageContent.value;
+
+            switch (elementType) {
+                case 'h2':
+                    pageContent.value = `${currentContent}\n## New Header`;
+                    break;
+                case 'p':
+                    pageContent.value = `${currentContent}\nNew paragraph content.`;
+                    break;
+                case 'button':
+                    pageContent.value = `${currentContent}\n<button>Click me</button>`;
+                    break;
+                default:
+                    break;
+            }
+        }
+
         function generateHTML() {
             const pageTitle = document.getElementById('pageTitle').value;
             const pageContent = document.getElementById('pageContent').value;
@@ -42,7 +67,7 @@
                 <body class="bg-gray-200 p-8">
                     <div class="max-w-2xl mx-auto bg-white p-4 rounded shadow">
                         <h1 class="text-3xl font-bold">${pageTitle}</h1>
-                        <p class="mt-2">${pageContent}</p>
+                        ${parseContent(pageContent)}
                     </div>
                 </body>
 
@@ -50,6 +75,19 @@
             `;
 
             document.getElementById('output').innerText = generatedHTML;
+        }
+
+        function parseContent(content) {
+            // Basic parsing to convert newline characters to HTML elements
+            return content.split('\n').map(line => {
+                if (line.startsWith('##')) {
+                    return `<h2>${line.substring(2)}</h2>`;
+                } else if (line.startsWith('<button>')) {
+                    return line;
+                } else {
+                    return `<p>${line}</p>`;
+                }
+            }).join('');
         }
     </script>
 </body>
